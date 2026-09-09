@@ -2,7 +2,7 @@
 
 **Course**: KEN3170 — Multi-scale modeling of biological systems
 **Group number**: 10
-**Members**: Ege Postacioglu, Gianluca Privitelli, Nikita Shuyaev, Valentyn Prianikov
+**Members**: Ege Postacioglu, Gianluca Privitelli, Nikita Shuvaev, Valentyn Prianikov
 
 ---
 
