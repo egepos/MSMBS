@@ -1,0 +1,38 @@
+system,same_category_neighbour
+brain (STG betas),0.4861111111111111
+yamnet layer07relu,0.7916666666666666
+yamnet embedding,0.7604166666666666
+waveform untrained hidden_layers.0,0.2569444444444444
+waveform untrained hidden_layers.1,0.19444444444444445
+waveform untrained hidden_layers.2,0.2048611111111111
+waveform untrained hidden_layers.3,0.2048611111111111
+waveform untrained hidden_layers.4,0.21180555555555555
+waveform untrained classifier,0.21180555555555555
+waveform trained hidden_layers.0,0.22916666666666666
+waveform trained hidden_layers.1,0.2013888888888889
+waveform trained hidden_layers.2,0.19444444444444445
+waveform trained hidden_layers.3,0.21180555555555555
+waveform trained hidden_layers.4,0.2152777777777778
+waveform trained classifier,0.19791666666666666
+uninspired untrained conv_layers.0,0.5138888888888888
+uninspired untrained conv_layers.1,0.5104166666666666
+uninspired untrained conv_layers.2,0.5590277777777778
+uninspired untrained fc_layers.0,0.3923611111111111
+uninspired untrained fc_layers.1,0.4479166666666667
+uninspired untrained classifier,0.4097222222222222
+uninspired trained conv_layers.0,0.4861111111111111
+uninspired trained conv_layers.1,0.5277777777777778
+uninspired trained conv_layers.2,0.5902777777777778
+uninspired trained fc_layers.0,0.4965277777777778
+uninspired trained fc_layers.1,0.4479166666666667
+uninspired trained classifier,0.4131944444444444
+inspired untrained conv_layers.0,0.5868055555555556
+inspired untrained conv_layers.1,0.5555555555555556
+inspired untrained conv_layers.2,0.5798611111111112
+inspired untrained rnn,0.5486111111111112
+inspired untrained classifier,0.4722222222222222
+inspired trained conv_layers.0,0.5486111111111112
+inspired trained conv_layers.1,0.5833333333333334
+inspired trained conv_layers.2,0.6458333333333334
+inspired trained rnn,0.5833333333333334
+inspired trained classifier,0.6111111111111112
