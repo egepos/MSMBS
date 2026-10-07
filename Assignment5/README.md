@@ -54,3 +54,48 @@ void Infection::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2)
  ```
     
 In the above code, diffusion coefficient is defined once the stiffness of a cell is at least larger than 0.001. It is then a equal to the division 0.00001 by the stiffness of a cell. If the stiffness is less than 0.001, the diffusion coefficient is set to 0.00001.
+
+This creates a feedback loop:
+
+```
+more chemical in a cell
+        |
+        v
+lower wall stiffness   (stiffness = 3 - chemical level)
+        |
+        v
+higher diffusion       (diffusion = 0.00001 / stiffness)
+        |
+        v
+chemical spreads faster to the neighbour cells
+        |
+        v
+more chemical in the neighbours  --> (back to the top)
+```
+
+This is a positive feedback loop. More chemical makes the walls softer, softer walls let the chemical spread faster, and that brings even more chemical into the next cells, so the infection speeds itself up.
+
+#### Task 4:
+
+We ran the model twice with a different `rel_cell_div_threshold` (default is 2): once lower (1.5) and once higher (3). In 2 hours the pathogen divides only once at most, so we ran both for 8 hours to see the difference better.
+
+Threshold 1.5: ![task4_threshold1.5_4h.png](task4_threshold1.5_4h.png) - 4 hours ![task4_threshold1.5_8h.png](task4_threshold1.5_8h.png) - 8 hours
+
+Threshold 3: ![task4_threshold3_4h.png](task4_threshold3_4h.png) - 4 hours ![task4_threshold3_8h.png](task4_threshold3_8h.png) - 8 hours
+
+Number of pathogen cells:
+
+| Time | Threshold 1.5 | Threshold 3 |
+|------|---------------|-------------|
+| 2 h  | 2  | 1 |
+| 4 h  | 4  | 2 |
+| 6 h  | 8  | 2 |
+| 8 h  | 32 | 4 |
+
+A pathogen cell keeps growing and divides when its area gets bigger than `rel_cell_div_threshold` times its base area. With a lower threshold the cells divide sooner, so there are more pathogen cells, and because every cell keeps growing, the pathogen also takes up more space (after 8 hours about twice the area of the threshold 3 run). With a higher threshold the cells divide later, so you get a few big cells and the pathogen population expands slower.
+
+#### Task 5:
+
+In this model the cells have a real shape in 2D space, and two cells are neighbours only if they share a wall. The chemical can only move between neighbours through that shared wall, and how fast it moves depends on the wall (its length and stiffness) and on the size of the two cells. The neighbours can also change during the simulation, because the pathogen cells grow and divide and the tissue deforms, so new walls appear and old ones change.
+
+In the other models we worked with there were no neighbours like this. In the SIR/SIRD model there is no space, so everyone can meet everyone. In the metabolic model there are no cells at all, only reactions. In the Boolean network and in the neural networks the connections are fixed and never change during the simulation.
