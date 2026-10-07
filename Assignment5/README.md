@@ -99,3 +99,36 @@ A pathogen cell keeps growing and divides when its area gets bigger than `rel_ce
 In this model the cells have a real shape in 2D space, and two cells are neighbours only if they share a wall. The chemical can only move between neighbours through that shared wall, and how fast it moves depends on the wall (its length and stiffness) and on the size of the two cells. The neighbours can also change during the simulation, because the pathogen cells grow and divide and the tissue deforms, so new walls appear and old ones change.
 
 In the other models we worked with there were no neighbours like this. In the SIR/SIRD model there is no space, so everyone can meet everyone. In the metabolic model there are no cells at all, only reactions. In the Boolean network and in the neural networks the connections are fixed and never change during the simulation.
+
+### Task 6:
+The defense would go into `CellHouseKeeping`, in the "cell wall weakening" part. Right now the code there checks `patho_chem_level > 0.1` and lowers the stiffness. The defense is just one check: if the chemical is above some higher threshold, the cell does the opposite and makes its walls stiffer instead of softer.
+```CellHouseKeeping(c):
+if c is pathogen:
+    enlarge target area
+    divide if area > rel_cell_div_threshold * base area
+
+level = c.Chemical(0) / 0.5
+if level > 1.2: level = 1.2
+
+// new defence condition
+if c is not pathogen and level > defense_threshold:
+    stiffness = 3 + k * level    
+    set stiffness for all wall elements of c
+    c.SetCellVeto(true)              // walls are not allowed to reconfigure
+
+// weakining runs now only when defence is off
+else if c is not pathogen and level > 0.1:
+    stiffness = 3 - level
+    set stiffness for all wall elements of c
+    c.SetCellVeto(false)
+
+else:
+    stiffness = 3
+    set stiffness for all wall elements of c
+    c.SetCellVeto(true)
+```
+`defense_threshold` has to be bigger than 0.1, otherwise the weakening is never used. We would start with something like >0.5.
+
+This adds a negative feedback. In Task 3 the diffusion coefficient is `0.00001 / stiffness`, so when cell makes its walls stiffer the chemical moves slower through them. That leads to logical sequence: More chemical the stiffer wall so slower diffusion so less chemical reaches the neighbours. So it works against the positive loop and slows the infection down.
+
+Little thing to notice that the defense only starts above the threshold, so below it the positive loop is still working normally. Cells with low chemical level still soften and still let the infection going through. So threshold is basically decides how far the infection gets before the tissue stops it.
